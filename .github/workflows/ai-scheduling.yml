@@ -1,0 +1,42 @@
+name: AI Scheduling (Gemini)
+
+on:
+  push:
+    paths: [orders.csv]      # 訂單一更新就自動排程
+  workflow_dispatch:         # 在 Actions 頁面按 Run workflow 手動執行
+
+permissions:
+  contents: write            # 允許把結果存回 repo
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 下載專案
+        uses: actions/checkout@v4
+
+      - name: 安裝 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安裝套件
+        run: pip install ortools matplotlib google-genai
+
+      - name: 執行排程（OR-Tools）
+        run: python schedule.py | tee schedule_output.txt
+
+      - name: AI 產生排程摘要（外部 AI API：Gemini）
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}   # 金鑰從 Secrets 讀取，不寫在程式碼裡
+        run: |
+          python ai_summary.py
+          cat ai_summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 把結果存回 repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gantt.png schedule_result.csv schedule_output.txt ai_summary.md
+          git commit -m "自動排程結果與 AI 摘要" || echo "沒有變更"
+          git push
