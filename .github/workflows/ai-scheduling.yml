@@ -29,6 +29,7 @@ jobs:
       - name: AI 產生排程摘要（外部 AI API：Gemini）
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}   # 金鑰從 Secrets 讀取，不寫在程式碼裡
+          GEMINI_MODEL: gemini-3.5-flash-lite
         run: |
           python ai_summary.py
           cat ai_summary.md >> "$GITHUB_STEP_SUMMARY"
