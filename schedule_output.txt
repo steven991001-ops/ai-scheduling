@@ -1,0 +1,27 @@
+================================================================================
+Makespan = 11
+================================================================================
+
+Machine M1
+------------------------------------------------------------
+  Job J1, Step 1: start=0, end=3, duration=3
+  Job J2, Step 1: start=3, end=5, duration=2
+  Job J4, Step 2: start=5, end=8, duration=3
+  Job J3, Step 3: start=9, end=10, duration=1
+
+Machine M2
+------------------------------------------------------------
+  Job J3, Step 1: start=0, end=4, duration=4
+  Job J1, Step 2: start=4, end=6, duration=2
+  Job J2, Step 3: start=6, end=10, duration=4
+  Job J4, Step 3: start=10, end=11, duration=1
+
+Machine M3
+------------------------------------------------------------
+  Job J4, Step 1: start=0, end=2, duration=2
+  Job J2, Step 2: start=5, end=6, duration=1
+  Job J3, Step 2: start=6, end=9, duration=3
+  Job J1, Step 3: start=9, end=11, duration=2
+================================================================================
+排程結果已儲存至: /home/runner/work/ai-scheduling/ai-scheduling/schedule_result.csv
+甘特圖已儲存至: /home/runner/work/ai-scheduling/ai-scheduling/gantt.png
